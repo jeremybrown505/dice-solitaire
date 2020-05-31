@@ -6,10 +6,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import edu.cnm.deepdive.dicesolitaire.R;
 import edu.cnm.deepdive.dicesolitaire.model.Roll;
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -17,13 +15,16 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-  private static final String LABEL_ID_FORMAT = "pair_%d_label";
-  private static final String COUNT_ID_FORMAT = "pair_%d_count";
-
+  private static final String PAIR_LABEL_ID_FORMAT = "pair_%d_label";
+  private static final String PAIR_COUNT_ID_FORMAT = "pair_%d_count";
+  private static final String SCRATCH_LABEL_ID_FORMAT = "scratch_%d_label";
+  private static final String SCRATCH_COUNT_ID_FORMAT = "scratch_%d_count";
+  private TextView[] scratchLabels;
+  private ProgressBar[] scratchCounts;
   private int minPairValue = 2;
   private int maxPairValue;
-  private TextView[] labels;
-  private ProgressBar[] counts;
+  private TextView[] pairLabels;
+  private ProgressBar[] pairCounts;
   private Button roller;
   private TextView rollDisplay;
   private Random rng;
@@ -33,24 +34,43 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     maxPairValue = 2 * Roll.NUM_FACES;
-    labels = new TextView[maxPairValue - minPairValue + 1];
-    counts = new ProgressBar[maxPairValue - minPairValue + 1];
+    pairLabels = new TextView[maxPairValue - minPairValue + 1];
+    pairCounts = new ProgressBar[maxPairValue - minPairValue + 1];
     Resources res = getResources();
     rng = new Random();
     NumberFormat formatter = NumberFormat.getInstance();
     for (int i = minPairValue; i <= maxPairValue; i++) {
-      String labelIdString = String.format(LABEL_ID_FORMAT, i);
+
+      String labelIdString = String.format(PAIR_LABEL_ID_FORMAT, i);
       int labelId = res.getIdentifier(labelIdString, "id", getPackageName());
-      labels[i - minPairValue] = findViewById(labelId);
-      labels[i - minPairValue].setText(formatter.format(i));
-      String countIdString = String.format(COUNT_ID_FORMAT, i);
+      pairLabels[i - minPairValue] = findViewById(labelId);
+      pairLabels[i - minPairValue].setText(formatter.format(i));
+
+      String countIdString = String.format(PAIR_COUNT_ID_FORMAT, i);
       int countId = res.getIdentifier(countIdString, "id", getPackageName());
-      counts[i - minPairValue] = findViewById(countId);
-      counts[i - minPairValue].setProgress(1 + rng.nextInt(10));
+      pairCounts[i - minPairValue] = findViewById(countId);
+      pairCounts[i - minPairValue].setProgress(1 + rng.nextInt(10));
     }
     roller = findViewById(R.id.roller);
     rollDisplay = findViewById(R.id.roll_display);
     roller.setOnClickListener(new RollerListener());
+
+    scratchLabels = new TextView[Roll.NUM_FACES];
+    for (int j = 1; j <= Roll.NUM_FACES; j++) {
+
+      String scratchLabelIdString = String.format(SCRATCH_LABEL_ID_FORMAT, j);
+      int scratchLabelId  = res.getIdentifier(scratchLabelIdString, "id", getPackageName());
+      scratchLabels [j] = findViewById(scratchLabelId);
+      scratchLabels [j].setText(formatter.format(j));
+
+      String scratchCountIdString = String.format(SCRATCH_COUNT_ID_FORMAT, j);
+      int scratchCountId = res.getIdentifier(scratchCountIdString, "id", getPackageName());       ;
+      scratchCounts [j] = findViewById(scratchCountId);
+      scratchCounts [j].setProgress(1 + rng.nextInt(10));
+
+    }
+
+
   }
 
   private class RollerListener implements OnClickListener {
