@@ -56,17 +56,18 @@ public class MainActivity extends AppCompatActivity {
     roller.setOnClickListener(new RollerListener());
 
     scratchLabels = new TextView[Roll.NUM_FACES];
-    for (int j = 1; j <= Roll.NUM_FACES; j++) {
+    scratchCounts = new ProgressBar[Roll.NUM_FACES];
+    for (int i = 1; i <= Roll.NUM_FACES; i++) {
 
-      String scratchLabelIdString = String.format(SCRATCH_LABEL_ID_FORMAT, j);
+      String scratchLabelIdString = String.format(SCRATCH_LABEL_ID_FORMAT, i);
       int scratchLabelId  = res.getIdentifier(scratchLabelIdString, "id", getPackageName());
-      scratchLabels [j] = findViewById(scratchLabelId);
-      scratchLabels [j].setText(formatter.format(j));
+      scratchLabels [i - 1] = findViewById(scratchLabelId);
+      scratchLabels [i - 1].setText(formatter.format(i));
 
-      String scratchCountIdString = String.format(SCRATCH_COUNT_ID_FORMAT, j);
+      String scratchCountIdString = String.format(SCRATCH_COUNT_ID_FORMAT, i);
       int scratchCountId = res.getIdentifier(scratchCountIdString, "id", getPackageName());       ;
-      scratchCounts [j] = findViewById(scratchCountId);
-      scratchCounts [j].setProgress(1 + rng.nextInt(10));
+      scratchCounts [i - 1] = findViewById(scratchCountId);
+      scratchCounts [i - 1].setProgress(1 + rng.nextInt(10));
 
     }
 
