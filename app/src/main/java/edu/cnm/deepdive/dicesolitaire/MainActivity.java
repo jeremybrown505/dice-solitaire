@@ -22,39 +22,29 @@ public class MainActivity extends AppCompatActivity {
   private TextView[] scratchLabels;
   private ProgressBar[] scratchCounts;
   private int minPairValue = 2;
-  private int maxPairValue;
+  private int maxPairValue = 2 * Roll.NUM_FACES;
   private TextView[] pairLabels;
   private ProgressBar[] pairCounts;
   private Button roller;
   private TextView rollDisplay;
-  private Random rng;
+  private Random rng = new Random();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setupUI();
+  }
+
+  private void setupUI() {
     setContentView(R.layout.activity_main);
-    maxPairValue = 2 * Roll.NUM_FACES;
-    pairLabels = new TextView[maxPairValue - minPairValue + 1];
-    pairCounts = new ProgressBar[maxPairValue - minPairValue + 1];
     Resources res = getResources();
-    rng = new Random();
     NumberFormat formatter = NumberFormat.getInstance();
-    for (int i = minPairValue; i <= maxPairValue; i++) {
+    setupPairControls(res, formatter);
+    setupPlayControls();
+    setupScratchControls(res, formatter);
+  }
 
-      String labelIdString = String.format(PAIR_LABEL_ID_FORMAT, i);
-      int labelId = res.getIdentifier(labelIdString, "id", getPackageName());
-      pairLabels[i - minPairValue] = findViewById(labelId);
-      pairLabels[i - minPairValue].setText(formatter.format(i));
-
-      String countIdString = String.format(PAIR_COUNT_ID_FORMAT, i);
-      int countId = res.getIdentifier(countIdString, "id", getPackageName());
-      pairCounts[i - minPairValue] = findViewById(countId);
-      pairCounts[i - minPairValue].setProgress(1 + rng.nextInt(10));
-    }
-    roller = findViewById(R.id.roller);
-    rollDisplay = findViewById(R.id.roll_display);
-    roller.setOnClickListener(new RollerListener());
-
+  private void setupScratchControls(Resources res, NumberFormat formatter) {
     scratchLabels = new TextView[Roll.NUM_FACES];
     scratchCounts = new ProgressBar[Roll.NUM_FACES];
     for (int i = 1; i <= Roll.NUM_FACES; i++) {
@@ -70,8 +60,29 @@ public class MainActivity extends AppCompatActivity {
       scratchCounts [i - 1].setProgress(1 + rng.nextInt(10));
 
     }
+  }
 
+  private void setupPlayControls() {
+    roller = findViewById(R.id.roller);
+    rollDisplay = findViewById(R.id.roll_display);
+    roller.setOnClickListener(new RollerListener());
+  }
 
+  private void setupPairControls(Resources res, NumberFormat formatter) {
+    pairLabels = new TextView[maxPairValue - minPairValue + 1];
+    pairCounts = new ProgressBar[maxPairValue - minPairValue + 1];
+    for (int i = minPairValue; i <= maxPairValue; i++) {
+
+      String labelIdString = String.format(PAIR_LABEL_ID_FORMAT, i);
+      int labelId = res.getIdentifier(labelIdString, "id", getPackageName());
+      pairLabels[i - minPairValue] = findViewById(labelId);
+      pairLabels[i - minPairValue].setText(formatter.format(i));
+
+      String countIdString = String.format(PAIR_COUNT_ID_FORMAT, i);
+      int countId = res.getIdentifier(countIdString, "id", getPackageName());
+      pairCounts[i - minPairValue] = findViewById(countId);
+      pairCounts[i - minPairValue].setProgress(1 + rng.nextInt(10));
+    }
   }
 
   private class RollerListener implements OnClickListener {
