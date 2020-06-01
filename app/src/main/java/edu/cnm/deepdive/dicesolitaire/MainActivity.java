@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
   private TextView[] pairLabels;
   private ProgressBar[] pairCounts;
   private Button roller;
-  private TextView rollDisplay;
   private Random rng = new Random();
 
   @Override
@@ -64,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
   private void setupPlayControls() {
     roller = findViewById(R.id.roller);
-    rollDisplay = findViewById(R.id.roll_display);
+    // TODO find and wire up dice ImageView object.
+//    rollDisplay = findViewById(R.id.roll_display);
     roller.setOnClickListener(new RollerListener());
   }
 
@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onClick(View v) {
       Roll roll = new Roll(rng);
-      rollDisplay.setText(Arrays.toString(roll.getDice()));
+      // TODO Display dice Images.
+//      rollDisplay.setText(Arrays.toString(roll.getDice()));
     }
 
   }
