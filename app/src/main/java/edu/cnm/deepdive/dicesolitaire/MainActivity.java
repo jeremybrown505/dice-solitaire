@@ -49,33 +49,28 @@ public class MainActivity extends AppCompatActivity {
     for (int i = 1; i <= Roll.NUM_FACES; i++) {
 
       String scratchLabelIdString = String.format(SCRATCH_LABEL_ID_FORMAT, i);
-      int scratchLabelId  = res.getIdentifier(scratchLabelIdString, "id", getPackageName());
-      scratchLabels [i - 1] = findViewById(scratchLabelId);
-      scratchLabels [i - 1].setText(formatter.format(i));
+      int scratchLabelId = res.getIdentifier(scratchLabelIdString, "id", getPackageName());
+      scratchLabels[i - 1] = findViewById(scratchLabelId);
+      scratchLabels[i - 1].setText(formatter.format(i));
 
       String scratchCountIdString = String.format(SCRATCH_COUNT_ID_FORMAT, i);
-      int scratchCountId = res.getIdentifier(scratchCountIdString, "id", getPackageName());       ;
-      scratchCounts [i - 1] = findViewById(scratchCountId);
-      scratchCounts [i - 1].setProgress(1 + rng.nextInt(10));
+      int scratchCountId = res.getIdentifier(scratchCountIdString, "id", getPackageName());
+      scratchCounts[i - 1] = findViewById(scratchCountId);
+      scratchCounts[i - 1].setProgress(1 + rng.nextInt(10));
 
     }
   }
 
   private void setupPlayControls() {
-    class RollerListener implements OnClickListener {
-
+    roller = findViewById(R.id.roller);
+    // TODO find and wire up dice ImageView object.
+    roller.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         Roll roll = new Roll(rng);
         // TODO Display dice Images.
-//      rollDisplay.setText(Arrays.toString(roll.getDice()));
       }
-    }
-
-    roller = findViewById(R.id.roller);
-    // TODO find and wire up dice ImageView object.
-//    rollDisplay = findViewById(R.id.roll_display);
-    roller.setOnClickListener(new RollerListener());
+    });
   }
 
   private void setupPairControls(Resources res, NumberFormat formatter) {
