@@ -82,12 +82,9 @@ public class MainActivity extends AppCompatActivity {
       int id = res.getIdentifier(idString, "drawable", getPackageName());
       diceFaces[i] = getDrawable(id);
     }
-    roller.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        roller.setEnabled(false);
-        new DiceAnimator().start();
-      }
+    roller.setOnClickListener((v) -> {
+      roller.setEnabled(false);
+      new DiceAnimator().start();
     });
   }
 
@@ -113,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
   private class DiceAnimator extends Thread {
 
     @Override
-    public void run() {
+    public void run() {+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       Roll roll = new Roll(rng);
       for (int i = 0; i < Roll.NUM_DICE; i++) {
         final int dieIndex = i;
@@ -129,22 +126,11 @@ public class MainActivity extends AppCompatActivity {
         final int value = roll.getDice()[i];
         displayFace(dieIndex, value);
       }
-      runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-          roller.setEnabled(true);
-        }
-      });
+      runOnUiThread(() -> roller.setEnabled(true));
     }
 
     private void displayFace(final int dieIndex, final int value) {
-      runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-          displayDiceFace(dieIndex, value - 1);
-
-        }
-      });
+      runOnUiThread(() -> displayDiceFace(dieIndex, value - 1));
     }
 
   }
